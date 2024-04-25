@@ -1,0 +1,45 @@
+plugins {
+    id 'groovy'
+    id 'jacoco'
+    id 'org.springframework.boot' version '3.2.4'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+apply from: "$rootDir/gradle/integration-test.gradle"
+
+version = '1.0.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://repo.gradle.org/gradle/libs-releases'
+    }
+    maven {
+        url 'https://repo.gradle.org/gradle/libs-snapshots'
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'org.springframework.boot:spring-boot-starter-mustache'
+    implementation 'org.gradle:gradle-tooling-api:8.6'
+    implementation 'org.apache.ant:ant:1.10.5'
+    implementation 'org.json:json:20180130'
+    runtimeOnly 'com.github.ben-manes.caffeine:caffeine'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.codehaus.groovy:groovy:3.0.21'
+    testImplementation 'org.apache.commons:commons-compress:1.18'
+    testImplementation 'org.spockframework:spock-core:2.3-groovy-3.0'
+    integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+}
